@@ -7,3 +7,4 @@ O projetoo trata-se de um portal para servir como repositório pessoal e rede so
 Utilizando HTML, CSS e JavaScript.
 
 https://cadernodereceitas.github.io/frontend/
+
