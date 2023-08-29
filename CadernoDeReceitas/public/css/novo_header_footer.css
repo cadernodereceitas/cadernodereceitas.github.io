@@ -1,0 +1,14 @@
+nav, footer
+{
+    background-color: #F1EBDD;
+}
+
+a
+{
+    color: red;
+}
+
+.navbar-expand-md .navbar-nav .nav-link
+{
+    color: white;
+}
