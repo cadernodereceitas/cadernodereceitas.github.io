@@ -11,7 +11,7 @@ class Receita extends Model
 
     protected $table = 'receitas';
 
-    protected $fillable = ['nome', 'tipo_receita_id', 'ingredientes', 'modo_preparo', 'alcoolica', 'tempo_preparo', 'user_id', 'cadastrada_em', 'aprovada', 'aprovada_por', 'aprovada_em'];
+    protected $fillable = ['nome', 'tipo_receita_id', 'ingredientes', 'modo_preparo', 'alcoolica', 'tempo_preparo', 'user_id', 'cadastrada_em', 'aprovada', 'aprovada_por', 'aprovada_em', 'porcoes'];
 
     public function tipoReceita()
     {
@@ -25,12 +25,17 @@ class Receita extends Model
 
     public function avaliacoes()
     {
-        return $this->hasMany(ImagemReceita::class, 'receita_id', 'id');
+        return $this->hasMany(AvaliacaoReceita::class, 'receita_id', 'id');
     }
 
     public function favoritada()
     {
         return $this->hasMany(Favorito::class, 'receita_id', 'id');
+    }
+
+    public function listaFavoritada($user_id)
+    {
+        return $this->hasMany(Favorito::class, 'receita_id', 'id')->where('favoritos.user_id', $user_id)->get();
     }
 
     public function avaliacaoReceita()
@@ -52,7 +57,8 @@ class Receita extends Model
             'tipo_receita_id' => 'exists:tipos_receitas,id',
             'ingredientes' => 'required|min:3|max:2000',
             'modo_preparo' => 'required|min:3|max:2000',
-            'tempo_preparo' => 'integer'
+            'tempo_preparo' => 'integer',
+            'imagem' => 'required|file|mimes:png,jpg,jpeg'
         ];
     }
 
@@ -66,7 +72,8 @@ class Receita extends Model
             'modo_preparo.required' => 'O campo modo de preparo é obrigatório',
             'modo_preparo.min' => 'O campo modo de preparo deve possuir ao menos 3 caracteres',
             'modo_preparo.max' => 'O campo modo de preparo deve ter no máximo 2000 caracteres',
-            'tempo_preparo.integer' => 'O campo tempo de preparo deve ser preenchido com um número inteiro'
+            'tempo_preparo.integer' => 'O campo tempo de preparo deve ser preenchido com um número inteiro',
+            'imagem.mimes' => 'O arquivo deve ser uma imagem nos formatos png, jpg ou jpeg'
         ];
     }
 }

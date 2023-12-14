@@ -11,7 +11,7 @@
 
     <div class="conteudo">
         <h1>Cadastro de Nova Receita</h1>
-        <form class="formulario" name="formcadastro" method="post" action="{{ route('cadastrar_receita') }}">
+        <form class="formulario" name="formcadastro" method="post" action="{{ route('cadastrar_receita') }}" enctype="multipart/form-data">
             @csrf
 
             <label class="label-input-titulo">Título da Receita:
@@ -25,7 +25,6 @@
             {{ $errors->has('tempo_preparo') ? $errors->first('tempo_preparo') : '' }}
 
             <label class="label-input-titulo">Alcoólica:
-                {{-- <input class="input-titulo" type="text" name="alcoolica" value="{{ $receita->alcoolica ?? old('alcoolica') }}"> --}}
                 <input class="input-titulo" type="checkbox" name="alcoolica" {{ ($receita->alcoolica ?? old('alcoolica')) ? 'checked' : '' }}>
             </label>
 
@@ -34,24 +33,24 @@
                 <select class="dropdown" name="tipo_receita_id">
                     <option value="">Selecionar...</option>
                     @foreach ($tiposReceitas as $tipoReceita)
-                        <option value="{{ $tipoReceita->id }}" {{ $receita->tipo_receita_id ?? old('tipo_receita_id') == $tipoReceita->id ? 'selected' : '' }}>{{ $tipoReceita->nome }}</option>
+                        <option value="{{ $tipoReceita->id }}" {{ isset($receita->tipo_receita_id) && $receita->tipo_receita_id == $tipoReceita->id ? 'selected' : '' }}>{{ $tipoReceita->nome }}</option>
                     @endforeach
                 </select>
                 {{ $errors->has('tipo_receita_id') ? $errors->first('tipo_receita_id') : '' }}
             </div>
 
             <label class="label-input">Ingredientes:
-                <textarea id="ingredientes" name="ingredientes" value="{{ $receita->ingredientes ?? old('ingredientes') }}"></textarea>
+                <textarea id="ingredientes" name="ingredientes">{{ $receita->ingredientes ?? old('ingredientes') }}</textarea>
             </label>
             {{ $errors->has('ingredientes') ? $errors->first('ingredientes') : '' }}
 
             <label class="label-input">Modo de Preparo:
-                <textarea id="modo_preparo" name="modo_preparo" value="{{ $receita->modo_preparo ?? old('modo_preparo') }}"></textarea>
+                <textarea id="modo_preparo" name="modo_preparo">{{ $receita->modo_preparo ?? old('modo_preparo') }}</textarea>
             </label>
             {{ $errors->has('modo_preparo') ? $errors->first('modo_preparo') : '' }}
 
             <label class="titulo-input" for="imagem">Imagem:</label>
-            <input class="imagem" name="myFile" type="file" multiple>
+            <input id="imagem" class="imagem" name="imagem" type="file" multiple="multiple">
             <div class="botoes">
                 <button id="enviar" class="botao-enviar" type="submit">ENVIAR</button>
             </div>

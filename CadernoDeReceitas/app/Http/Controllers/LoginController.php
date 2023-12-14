@@ -8,6 +8,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Cache;
 
 class LoginController extends Controller
 {
@@ -15,9 +16,11 @@ class LoginController extends Controller
 
     public function paginaLogin()
     {
-        $tiposReceitas = TipoReceita::all();
+        $tiposReceitas = Cache::remember('tipo_receita', 300, function() {
+            return TipoReceita::all();
+        });
+
         return view('public.login', ['tiposReceitas' => $tiposReceitas]);
-        // return view('public.login');
     }
 
     protected function validator(array $data)
@@ -76,7 +79,10 @@ class LoginController extends Controller
 
         User::create($request->all());
 
-        $tiposReceitas = TipoReceita::all();
+        $tiposReceitas = Cache::remember('tipo_receita', 300, function() {
+            return TipoReceita::all();
+        });
+
         return redirect()->route('home', ['tiposReceitas' => $tiposReceitas]);
     }
 
@@ -84,7 +90,60 @@ class LoginController extends Controller
     {
         session_destroy();
 
-        $tiposReceitas = TipoReceita::all();
+        $tiposReceitas = Cache::remember('tipo_receita', 300, function() {
+            return TipoReceita::all();
+        });
+
         return redirect()->route('home', ['tiposReceitas' => $tiposReceitas]);
+    }
+
+    public function listar_usuarios()
+    {
+        $tiposReceitas = Cache::remember('tipo_receita', 300, function() {
+            return TipoReceita::all();
+        });
+
+        $users = User::where('superUser', '!=', 1)->get();
+
+        return view('private.lista_usuarios', ['tiposReceitas' => $tiposReceitas, 'users' => $users]);
+    }
+
+    public function promover_userAdmin(User $user)
+    {
+        $user->update(['userAdmin' => true]);
+
+        $tiposReceitas = Cache::remember('tipo_receita', 300, function() {
+            return TipoReceita::all();
+        });
+
+        $users = User::where('superUser', '!=', 1)->get();
+
+        return redirect()->route('private.lista_usuarios', ['tiposReceitas' => $tiposReceitas, 'users' => $users]);
+    }
+
+    public function rebaixar_userAdmin(User $user)
+    {
+        $user->update(['userAdmin' => false]);
+
+        $tiposReceitas = Cache::remember('tipo_receita', 300, function() {
+            return TipoReceita::all();
+        });
+
+        $users = User::where('superUser', '!=', 1)->get();
+
+        return redirect()->route('private.lista_usuarios', ['tiposReceitas' => $tiposReceitas, 'users' => $users]);
+    }
+
+    public function promover_superUser(User $user)
+    {
+        $user->update(['superUser' => true]);
+
+        $tiposReceitas = Cache::remember('tipo_receita', 300, function() {
+            return TipoReceita::all();
+        });
+
+        $users = User::where('superUser', '!=', 1)->get();
+
+        return redirect()->route('private.lista_usuarios', ['tiposReceitas' => $tiposReceitas, 'users' => $users]);
     }
 }

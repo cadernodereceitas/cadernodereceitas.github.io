@@ -11,8 +11,8 @@ class Favorito extends Model
 
     protected $fillable = ['user_id', 'receita_id'];
 
-    public function receita()
+    public function receitas()
     {
-        return $this->belongsTo(Receita::class, 'id', 'receita_id');
+        return $this->belongsTo(Receita::class, 'receita_id', 'id');
     }
 }
