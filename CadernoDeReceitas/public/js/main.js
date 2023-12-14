@@ -6,20 +6,20 @@ const showMenu = (toggleId, navId) =>{
     // Valida a existência de variáveis
     if(toggle && nav){
         toggle.addEventListener('click', ()=>{
-            // Adicionamos a classe show-menu à tag div com a classe nav__menu
-            nav.classList.toggle('show-menu')
+            // Adicionamos a classe apresentar-menu à tag div com a classe navegacao__menu
+            nav.classList.toggle('apresentar-menu')
         })
     }
 }
 showMenu('nav-toggle','nav-menu')
 
 /*==================== REMOVE MENU MOBILE ====================*/
-const navLink = document.querySelectorAll('.nav__link')
+const navLink = document.querySelectorAll('.navegacao__link')
 
 function linkAction(){
     const navMenu = document.getElementById('nav-menu')
-    // Quando clicamos em cada nav__link, removemos a classe show-menu
-    navMenu.classList.remove('show-menu')
+    // Quando clicamos em cada navegacao__link, removemos a classe apresentar-menu
+    navMenu.classList.remove('apresentar-menu')
 }
 navLink.forEach(n => n.addEventListener('click', linkAction))
 
@@ -35,9 +35,9 @@ function scrollActive(){
         sectionId = current.getAttribute('id')
 
         if(scrollY > sectionTop && scrollY <= sectionTop + sectionHeight){
-            document.querySelector('.nav__menu a[href*=' + sectionId + ']').classList.add('active-link')
+            document.querySelector('.navegacao__menu a[href*=' + sectionId + ']').classList.add('link-ativo')
         }else{
-            document.querySelector('.nav__menu a[href*=' + sectionId + ']').classList.remove('active-link')
+            document.querySelector('.navegacao__menu a[href*=' + sectionId + ']').classList.remove('link-ativo')
         }
     })
 }
@@ -46,8 +46,8 @@ window.addEventListener('scroll', scrollActive)
 /*==================== CHANGE BACKGROUND HEADER ====================*/ 
 function scrollHeader(){
     const nav = document.getElementById('header')
-    // Quando a rolagem é maior que 200 na altura da janela de visualização, adicione a classe scroll-header à tag de cabeçalho
-    if(this.scrollY >= 200) nav.classList.add('scroll-header'); else nav.classList.remove('scroll-header')
+    // Quando a rolagem é maior que 200 na altura da janela de visualização, adicione a classe scroll-cabecalho à tag de cabeçalho
+    if(this.scrollY >= 200) nav.classList.add('scroll-cabecalho'); else nav.classList.remove('scroll-cabecalho')
 }
 window.addEventListener('scroll', scrollHeader)
 
