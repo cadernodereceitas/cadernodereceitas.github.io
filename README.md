@@ -2,7 +2,7 @@
 
 Projeto inicializado na disciplina de Programação para a Web, no curso de Sistemas de Informação da Universidade Federal de Santa Catarina no semestre 2021.1.
 
-O projetoo trata-se de um portal para servir como repositório pessoal e rede social de compartilhamento de receitas.
+O projeto trata-se de um portal para servir como repositório pessoal e rede social de compartilhamento de receitas.
 
 Inicialmente foi desenvolvido utilizando HTML, CSS e JavaScript.
 
